@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">humanvsbot-frontend</string>
-    <string name="title_activity_main">humanvsbot-frontend</string>
+    <string name="app_name">humanvsbot</string>
+    <string name="title_activity_main">humanvsbot</string>
     <string name="package_name">com.saumya.humanvsbot</string>
     <string name="custom_url_scheme">com.saumya.humanvsbot</string>
 </resources>

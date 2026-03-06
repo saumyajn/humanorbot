@@ -2,7 +2,8 @@ import {  Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private readonly API_URL = 'https://humanvsbot-middleware.onrender.com'; 
+  // private readonly API_URL = 'https://humanvsbot-middleware.onrender.com';
+    private readonly API_URL = 'http://localhost:3000'; // For local testing 
 
   async submitGuess(roomId: string | null, choice: 'AI' | 'Human') {
     const response = await fetch(`${this.API_URL}/api/guess`, {

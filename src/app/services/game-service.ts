@@ -13,7 +13,8 @@ export class GameService {
   private socket: Socket;
   private apiService = inject(ApiService);
   private destroyRef = inject(DestroyRef);
-  private readonly API_URL = 'https://humanvsbot-middleware.onrender.com';
+  // private readonly API_URL = 'https://humanvsbot-middleware.onrender.com';
+  private readonly API_URL = 'http://localhost:3000'; // For local testing
   private ngZone = inject(NgZone);
   // --- SIGNALS ---
   public connectionStatus = signal<'DISCONNECTED' | 'SEARCHING' | 'MATCHED'>('DISCONNECTED');
@@ -63,7 +64,7 @@ export class GameService {
           const senderRole = msg.sender === 'system' ? 'system' : 'opponent';
           if (senderRole === 'opponent') {
             this.typingSender.set('opponent');
-            const typingDuration = Math.floor(Math.random() * 4000) + 1000; // 1-5 seconds
+            const typingDuration = Math.floor(Math.random() * 4000) + 2000; // 1-5 seconds
             setTimeout(() => {
               this.typingSender.set(null);
               this.addMessage(msg.text, senderRole);

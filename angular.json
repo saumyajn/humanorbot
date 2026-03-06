@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "humanvsbot-frontend": {
+    "humanvsbot": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,6 +23,7 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "baseHref": "/",
             "assets": [
               {
                 "glob": "**/*",
@@ -61,10 +62,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "humanvsbot-frontend:build:production"
+              "buildTarget": "humanvsbot:build:production"
             },
             "development": {
-              "buildTarget": "humanvsbot-frontend:build:development"
+              "buildTarget": "humanvsbot:build:development"
             }
           },
           "defaultConfiguration": "development"
