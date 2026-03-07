@@ -120,7 +120,7 @@ export class GameService {
   private startGame() {
     this.messages.set([]);
     this.isGameOver.set(false);
-    this.gameTimer.set(1200);
+    this.gameTimer.set(120);
     this.myAvatarUrl.set(this.apiService.getAvatarUrl('me' + Date.now()));
     this.opponentAvatarUrl.set(this.apiService.getAvatarUrl('opp' + Date.now()));
 
