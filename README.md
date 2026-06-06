@@ -30,13 +30,19 @@ Default local URL:
 http://localhost:4200
 ```
 
-The frontend reads runtime settings from `public/config.js`. For local development the default middleware URL is:
+The frontend reads runtime settings from `public/config.js`. The committed `config.js` points at the deployed middleware:
+
+```bash
+https://humanvsbot-middleware.onrender.com
+```
+
+For local development, temporarily change `public/config.js` to:
 
 ```bash
 http://localhost:3000
 ```
 
-For deployment, replace `public/config.js` or generate it during hosting with the deployed middleware URL.
+Never deploy `public/config.js` with a localhost middleware URL. A deployed browser will otherwise try to connect to the visitor's own machine and fail with `ERR_CONNECTION_REFUSED`.
 
 ## Build
 
