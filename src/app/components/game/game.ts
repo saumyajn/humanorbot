@@ -54,20 +54,22 @@ export class Game implements AfterViewInit, OnDestroy {
   async selectIdentity(choice: 'AI' | 'Human') {
     this.isRevealing.set(true);
     try {
-      const result = await this.apiService.submitGuess(this.gameService.roomId(), choice);
-      console.log("result:", result);
+      const result = await this.apiService.submitGuess(
+        this.gameService.roomId(),
+        choice,
+        this.gameService.playerId()
+      );
       this.gameResult.set(result);
-      console.log("Game result set:", this.gameResult());
       this.gameService.isGameOver.set(true); // Game is truly over once the guess is submitted and the result is received.
     } catch (err) {
       console.error('Failed to submit guess', err);
+      this.gameService.lastError.set('Could not submit your verdict. Try again.');
     } finally {
       this.isRevealing.set(false);
     }
   }
 
   makeGuess() {
-    console.log('Make a guess clicked');
     this.gameService.isGameOver.set(true);
     this.makeGuessClicked.set(true);
   }
@@ -85,7 +87,6 @@ export class Game implements AfterViewInit, OnDestroy {
     });
   }
   returnToLobby() {
-    console.log('Returning to lobby...');
     this.gameService.leaveGame();
     this.router.navigate(['/']);
   }

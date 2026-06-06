@@ -10,6 +10,10 @@
     <p class="highlight">Think you can tell the difference?</p>
   </div>
 
+  @if (gameService.lastError()) {
+  <p class="status-alert">{{ gameService.lastError() }}</p>
+  }
+
   <button class="play-btn" (click)="gameService.findMatch()"
     [disabled]="gameService.connectionStatus() === 'SEARCHING'">
     @if (gameService.connectionStatus() === 'SEARCHING') {

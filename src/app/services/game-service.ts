@@ -1,6 +1,7 @@
 import { effect, EventEmitter, Injectable, signal, inject, DestroyRef, computed, NgZone } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { ApiService } from './api-service';
+import { getRuntimeConfig } from '../app-settings';
 
 export interface ChatMessage {
   text: string;
@@ -13,8 +14,8 @@ export class GameService {
   private socket: Socket;
   private apiService = inject(ApiService);
   private destroyRef = inject(DestroyRef);
-  private readonly API_URL = 'https://humanvsbot-middleware.onrender.com';
-  // private readonly API_URL = 'http://localhost:3000'; // For local testing
+  private readonly runtimeConfig = getRuntimeConfig();
+  private readonly API_URL = this.runtimeConfig.middlewareUrl;
   private ngZone = inject(NgZone);
   // --- SIGNALS ---
   public connectionStatus = signal<'DISCONNECTED' | 'SEARCHING' | 'MATCHED'>('DISCONNECTED');
@@ -27,6 +28,8 @@ export class GameService {
   public searchSeconds = signal<number>(10);
 
   public roomId = signal<string | null>(null);
+  public playerId = signal<string | null>(null);
+  public lastError = signal<string | null>(null);
   public myAvatarUrl = signal<string>('');
   public opponentAvatarUrl = signal<string>('');
 
@@ -48,10 +51,34 @@ export class GameService {
   }
 
   private setupSocketListeners() {
+    this.socket.on('connect', () => {
+      this.ngZone.run(() => {
+        this.playerId.set(this.socket.id ?? null);
+        this.lastError.set(null);
+      });
+    });
+
+    this.socket.on('disconnect', () => {
+      this.ngZone.run(() => {
+        this.stopSearchTimer();
+        clearInterval(this.gameInterval);
+        this.connectionStatus.set('DISCONNECTED');
+        this.lastError.set('Connection lost. Return to the lobby and start a new match.');
+      });
+    });
+
+    this.socket.on('connect_error', () => {
+      this.ngZone.run(() => {
+        this.connectionStatus.set('DISCONNECTED');
+        this.lastError.set('Unable to connect to the game server.');
+      });
+    });
+
     this.socket.on('match_found', (data) => {
       this.ngZone.run(() => {
         this.stopSearchTimer();
         this.roomId.set(data.roomId);
+        this.playerId.set(data.playerId ?? this.socket.id ?? null);
         this.connectionStatus.set('MATCHED');
         this.startGame();
         this.onMatchFound.emit();
@@ -76,6 +103,18 @@ export class GameService {
       });
     });
 
+    this.socket.on('message_rejected', (data: any) => {
+      this.ngZone.run(() => {
+        this.lastError.set(data?.message ?? 'Message rejected by server.');
+      });
+    });
+
+    this.socket.on('rate_limited', (data: any) => {
+      this.ngZone.run(() => {
+        this.lastError.set(data?.message ?? 'Slow down for a moment.');
+      });
+    });
+
     this.socket.on('opponent_guessed', () => {
       this.ngZone.run(() => {
         if (!this.isGameOver()) {
@@ -90,8 +129,10 @@ export class GameService {
 
   // --- LOBBY ACTIONS ---
   public findMatch() {
+    this.lastError.set(null);
+    this.isGameOver.set(false);
     this.connectionStatus.set('SEARCHING');
-    this.searchSeconds.set(10);
+    this.searchSeconds.set(this.runtimeConfig.matchTimeoutSeconds);
     if (this.searchInterval) {
       clearInterval(this.searchInterval);
     }
@@ -120,7 +161,8 @@ export class GameService {
   private startGame() {
     this.messages.set([]);
     this.isGameOver.set(false);
-    this.gameTimer.set(120);
+    this.lastError.set(null);
+    this.gameTimer.set(this.runtimeConfig.gameDurationSeconds);
     this.myAvatarUrl.set(this.apiService.getAvatarUrl('me' + Date.now()));
     this.opponentAvatarUrl.set(this.apiService.getAvatarUrl('opp' + Date.now()));
 
@@ -146,7 +188,7 @@ export class GameService {
   }
 
   private checkMessageLimit() {
-    if (this.messageCount() >= 10) this.endGame();
+    if (this.messageCount() >= this.runtimeConfig.maxMessagesPerPlayer) this.endGame();
   }
 
   private endGame() {
@@ -166,6 +208,7 @@ export class GameService {
     this.isGameOver.set(false);
     this.messages.set([]);
     this.roomId.set(null);
+    this.lastError.set(null);
   }
 
   private stopSearchTimer() {
@@ -173,7 +216,6 @@ export class GameService {
   }
 
   private addMessage(text: string, sender: 'me' | 'opponent' | 'system') {
-    console.log(`Adding message from ${sender}: ${text}`);
     this.messages.update(m => [...m, { text, sender, timestamp: Date.now() }]);
   }
 

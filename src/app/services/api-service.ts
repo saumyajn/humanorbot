@@ -1,25 +1,23 @@
-import {  Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { getRuntimeConfig } from '../app-settings';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private readonly API_URL = 'https://humanvsbot-middleware.onrender.com';
-    // private readonly API_URL = 'http://localhost:3000'; // For local testing 
+  private readonly API_URL = getRuntimeConfig().middlewareUrl;
 
-  async submitGuess(roomId: string | null, choice: 'AI' | 'Human') {
+  async submitGuess(roomId: string | null, choice: 'AI' | 'Human', playerId: string | null) {
     const response = await fetch(`${this.API_URL}/api/guess`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ roomId, guess: choice })
+      body: JSON.stringify({ roomId, guess: choice, playerId })
     });
 
     if (!response.ok) {
       throw new Error('Failed to submit guess');
     }
-console.log("Received response from /api/guess:", response);
     return await response.json();
-
   }
 
 

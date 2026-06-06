@@ -1,29 +1,47 @@
-Part 1: Local Development Setup
-To run all three applications simultaneously on your machine, follow these steps in separate terminal windows:
+# Local Development Setup
 
-1. Python Backend (FastAPI/Flask)
-Navigate: cd backend
+Run all three applications simultaneously in separate terminal windows.
 
-Install: pip install -r requirements.txt
+## 1. Python Backend
 
-Run: python main.py or uvicorn main:app --reload
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
 
-Verify: Open http://localhost:8000/health to see {"status": "ok"}.
+Verify:
 
-2. Node.js Middleware (Socket.io)
-Navigate: cd middleware
+```bash
+http://localhost:8000/health
+```
 
-Install: npm install
+Expected response:
 
-Run: npm run dev or node server.js
+```json
+{"status":"We are online"}
+```
 
-Verify: Check the console for "Server running on port 3000".
+## 2. Node.js Middleware
 
-3. Angular Frontend
-Navigate: cd frontend
+```bash
+cd middleware
+npm install
+node server.js
+```
 
-Install: npm install
+Verify the console shows the middleware listening on port `3000`.
 
-Run: npm start
+## 3. Angular Frontend
 
-Verify: Open http://localhost:4200 in your browser.
+```bash
+cd frontend
+npm install
+npm start
+```
+
+Verify:
+
+```bash
+http://localhost:4200
+```
