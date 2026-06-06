@@ -1,38 +1,59 @@
 :root {
-  /* Default: Dark Theme (Cyberpunk) */
-  --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  --main-header: linear-gradient(to right, #00f260, #0575e6);
-  --header-bg: rgba(255, 255, 255, 0.05);
-  --main-green: #00f260;
-  --text-main: #ffffff;
-  --text-muted: #a0a0a0;
-  --bubble-me: #007bff;
-  --bubble-me-text: #ffffff;
+  --bg-gradient:
+    radial-gradient(circle at 18% 12%, rgba(0, 242, 96, 0.12), transparent 28%),
+    radial-gradient(circle at 82% 18%, rgba(5, 117, 230, 0.16), transparent 30%),
+    linear-gradient(135deg, #111827 0%, #18212f 48%, #101419 100%);
+  --surface: rgba(17, 24, 39, 0.72);
+  --surface-strong: rgba(15, 23, 42, 0.9);
+  --surface-soft: rgba(255, 255, 255, 0.06);
+  --main-header: linear-gradient(to right, #37f29a, #48a8ff);
+  --header-bg: rgba(15, 23, 42, 0.75);
+  --main-green: #37f29a;
+  --primary-cyan: #48a8ff;
+  --text-main: #f8fafc;
+  --text-muted: #a8b3c4;
+  --bubble-me: #d7f8df;
+  --bubble-me-text: #0d1b12;
   --bubble-other: rgba(255, 255, 255, 0.1);
-  --bubble-other-text: #eeeeee;
-  --input-bg: #1a1a2e;
-  --input-border: rgba(255, 255, 255, 0.1);
-  --positive-green: #138a19;
-  --negative-red: #d62d3b;
+  --bubble-other-text: #f8fafc;
+  --input-bg: rgba(15, 23, 42, 0.82);
+  --input-border: rgba(255, 255, 255, 0.14);
+  --positive-green: #18b35b;
+  --negative-red: #ff5a6a;
+  --warning: #ffd666;
+  --shadow-strong: 0 18px 60px rgba(0, 0, 0, 0.34);
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --bg-gradient: linear-gradient(135deg, #b7b8f4 0%, #c8f8da 100%);
-    --main-header: linear-gradient(to right, #069341, #1345a2);
-    --main-green: #017b34;
-    --header-bg: #055054;
-    --text-main: #1e1a1a;
-    --text-muted: #757474;
+    --bg-gradient:
+      radial-gradient(circle at 18% 12%, rgba(1, 123, 52, 0.12), transparent 28%),
+      radial-gradient(circle at 82% 18%, rgba(19, 69, 162, 0.12), transparent 30%),
+      linear-gradient(135deg, #f5f7fb 0%, #e8f3ee 48%, #eef4ff 100%);
+    --surface: rgba(255, 255, 255, 0.74);
+    --surface-strong: rgba(255, 255, 255, 0.92);
+    --surface-soft: rgba(15, 23, 42, 0.05);
+    --main-header: linear-gradient(to right, #057a38, #1558c7);
+    --header-bg: rgba(255, 255, 255, 0.76);
+    --main-green: #057a38;
+    --primary-cyan: #1558c7;
+    --text-main: #132033;
+    --text-muted: #64748b;
     --bubble-me: #d9fdd3;
     --bubble-me-text: #111b21;
     --bubble-other: #ffffff;
     --bubble-other-text: #111b21;
     --input-bg: #ffffff;
-    --input-border: #ddd;
+    --input-border: rgba(15, 23, 42, 0.12);
     --positive-green: #0f7014;
-    --negative-red: #f93e4d;
+    --negative-red: #d93649;
+    --warning: #8a5a00;
+    --shadow-strong: 0 18px 50px rgba(15, 23, 42, 0.13);
   }
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html,
@@ -40,22 +61,32 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  min-height: 100dvh;
   width: 100%;
-  overflow: hidden; // Prevents accidental "bounce" scrolling on mobile
-  background-color: #1a1a2e; // Matches your theme so there's no "white flash"
-
+  overflow: hidden;
+  background: #101419;
+  color: var(--text-main);
 }
 
-// 2. Ensure the Angular root tag fills the screen
+body,
+button,
+input {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--primary-cyan);
+  outline-offset: 2px;
+}
+
 app-root {
   display: block;
-  height: 100%;
+  height: 100dvh;
   width: 100%;
-  padding-top: env(safe-area-inset-top, 20px);
-  padding-bottom: env(safe-area-inset-bottom, 20px);
-  padding-left: env(safe-area-inset-left, 0px);
-  padding-right: env(safe-area-inset-right, 0px);
-
-
-
 }

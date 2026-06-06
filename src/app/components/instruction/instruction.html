@@ -1,39 +1,47 @@
-<div class="info-screen">
-<!-- <div class="top-actions">
-      <button class="minimal-back" (click)="close.emit()">
-        <span class="icon">←</span> BACK TO LOBBY
-      </button>
-    </div> -->
-  <div class="instructions-content">
-    <section class="mission-brief">
-      <h3>The Imitation Game</h3>
-      <p>Based on Alan Turing’s 1950 concept: Can a machine mimic human interaction so perfectly that you cannot tell the difference?</p>
-    </section>
+<div class="howto-screen">
+  <section class="howto-hero">
+    <span class="eyebrow">How to play</span>
+    <h2>Trust the conversation, then doubt it.</h2>
+    <p>
+      You get a short chat with an unknown opponent. Ask, observe, and decide whether the subject is human or AI.
+    </p>
+  </section>
 
-    <div class="instr-card">
+  <section class="rules-grid" aria-label="Game rules">
+    <article class="rule-card">
       <span class="num">01</span>
-      <div class="text">
-        <h3>The 2-Minute Window</h3>
-        <p>You have exactly 120 seconds. Analyze word choice, emotional tone, and response timing. Is that pause a human thinking, or a bot simulating a delay?</p>
+      <div>
+        <h3>Start simple</h3>
+        <p>Open with casual questions. Humans usually reveal rhythm, context, and small inconsistencies without trying.</p>
       </div>
-    </div>
+    </article>
 
-    <div class="instr-card">
+    <article class="rule-card">
       <span class="num">02</span>
-      <div class="text">
-        <h3>The Human Nuance</h3>
-        <p>Watch for imperfections. A quick "sry, running late" or a personal opinion on a local park might feel human—but it could be a calculated strategy to build fake trust.</p>
+      <div>
+        <h3>Apply pressure</h3>
+        <p>Ask a follow-up. Switch topics. Look for replies that feel too polished, evasive, or strangely consistent.</p>
       </div>
-    </div>
+    </article>
 
-    <div class="instr-card">
+    <article class="rule-card">
       <span class="num">03</span>
-      <div class="text">
-        <h3>The Final Verdict</h3>
-        <p>After the clock stops, you must decide: <strong>Biological Human</strong> or <strong>AI Model</strong>. Your detection skills are the only thing that matters.</p>
+      <div>
+        <h3>Cast the verdict</h3>
+        <p>When time runs out, choose Human or AI. The game reveals the truth after your verdict.</p>
       </div>
-    </div>
-  </div>
+    </article>
+  </section>
 
-  <button class="primary-btn" (click)="close()">INITIATE TEST</button>
+  <section class="quick-tips" aria-label="Quick tips">
+    <h3>Good tells</h3>
+    <div class="tip-row">
+      <span>Timing</span>
+      <span>Tone shifts</span>
+      <span>Memory</span>
+      <span>Over-explaining</span>
+    </div>
+  </section>
+
+  <button class="primary-btn" (click)="close()">Start interrogation</button>
 </div>

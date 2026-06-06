@@ -21,6 +21,7 @@ export class GameService {
   public connectionStatus = signal<'DISCONNECTED' | 'SEARCHING' | 'MATCHED'>('DISCONNECTED');
 
   public messages = signal<ChatMessage[]>([]);
+  public hasUserSentMessage = computed(() => this.messages().some(m => m.sender === 'me'));
   public typingSender = signal<'me' | 'opponent' | null>(null);
   public messageCount = computed(() => this.messages().filter(m => m.sender === 'me').length);
   public gameTimer = signal<number>(1200);
@@ -173,6 +174,7 @@ export class GameService {
 
   public sendMessage(text: string) {
     if (!text.trim() || this.isGameOver()) return;
+    this.lastError.set(null);
 
     this.typingSender.set('me');
     const typingDuration = Math.floor(Math.random() * 4000) + 1000; // 1-5 seconds

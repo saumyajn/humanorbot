@@ -10,7 +10,29 @@
   <div class="status-alert">{{ gameService.lastError() }}</div>
   }
 
-  <div class="chat-area" #scrollContainer>
+  <section class="session-card">
+    <div class="session-copy">
+      <span class="eyebrow">Live round</span>
+      @if (!gameService.hasUserSentMessage()) {
+      <strong>Start with a casual question.</strong>
+      <span>Keep it short. Your opponent may be human or AI.</span>
+      } @else {
+      <strong>Read the pattern.</strong>
+      <span>Watch timing, tone, evasions, and how they handle pressure.</span>
+      }
+    </div>
+  </section>
+
+  <div class="chat-panel">
+    <div class="chat-area" #scrollContainer>
+    @if (gameService.messages().length === 0 && !gameService.typingSender()) {
+    <div class="empty-chat-state">
+      <span class="empty-label">Chat goes here</span>
+      <strong>Open with a normal question.</strong>
+      <p>Try something casual first, then press for details once you notice a pattern.</p>
+    </div>
+    }
+
     @for (msg of gameService.messages(); track msg.timestamp) {
     <div [class]="msg.sender === 'system' ? 'system-msg-row' : 'msg-row ' + (msg.sender === 'me' ? 'me' : 'them')">
       @if (msg.sender === 'opponent') {
@@ -55,6 +77,7 @@
       }
     </div>
     }
+    </div>
   </div>
 
   <div class="input-bar">

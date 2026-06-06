@@ -1,7 +1,7 @@
 <div class="chat-container">
   <header class="main-header">
     <div class="brand">
-      <span class="logo-icon">🤖</span>
+      <span class="logo-icon" aria-hidden="true">H/B</span>
       <div class="title-group" (click)="handleLeaveAction()">
         <h1>Human Or Bot</h1>
         <div class="status-indicator">
@@ -13,12 +13,12 @@
 
     @if (gameService.connectionStatus() === 'MATCHED') {
     <button class="exit-btn" (click)="handleLeaveAction()">
-      END SESSION
+      End session
     </button>
     }
   </header>
-  <div class="content-area">
-    <!-- Dynamic content goes here -->
+
+  <main class="content-area">
     <router-outlet></router-outlet>
-  </div>
+  </main>
 </div>
