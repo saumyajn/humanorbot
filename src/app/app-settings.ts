@@ -11,11 +11,10 @@ declare global {
   }
 }
 
-const LOCAL_MIDDLEWARE_URL = 'http://localhost:3000';
 const PRODUCTION_MIDDLEWARE_URL = 'https://humanvsbot-middleware.onrender.com';
 
 const DEFAULT_CONFIG: RuntimeConfig = {
-  middlewareUrl: LOCAL_MIDDLEWARE_URL,
+  middlewareUrl: PRODUCTION_MIDDLEWARE_URL,
   maxMessagesPerPlayer: 10,
   gameDurationSeconds: 120,
   matchTimeoutSeconds: 10,
