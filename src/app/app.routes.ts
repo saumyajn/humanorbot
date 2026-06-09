@@ -11,7 +11,8 @@ export const routes: Routes = [
     children: [
       { path: '', component: Home }, // Default child
       { path: 'how-to-play', component: Instruction },
-      { path: 'humanvsbot', component: Game }
+      { path: 'humanvsbot', component: Game },
+      { path: '**', redirectTo: '' }
     ]
   }
 ];
